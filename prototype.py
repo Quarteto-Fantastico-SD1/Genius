@@ -18,6 +18,7 @@ def play_game(max_cycle_size):
             print("you lose hahahahahah, noob\n")
             break
 
+    # display the result of the game
     if result == 1:
         print("Congratulations! You win!")
         
@@ -38,6 +39,8 @@ def play_cicle(cycle_size, sequence):
         if user_input != sequence[i]:
             player_victory = 0
             break
+    
+    # dysplay of the result of the cycle
     if player_victory == 1:
         print("correct!")
     else:
