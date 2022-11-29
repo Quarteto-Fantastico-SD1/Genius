@@ -1,7 +1,11 @@
-module binary_to_BCD(A,UNI,DEZ,CENT);
 /* Converte  um número binário de 8 bits em 
 um número BCD , formado por unidades (UNI), dezenas (DEZ)
-e centenas (CENT).
+e centenas (CENT)
+entrada: 
+saída: 
+ */
+module binary_to_BCD(A,UNI,DEZ,CENT);
+/* .
 
 Com 8 bits, podemos ter até o número 255. 
 Assim, UNI e DEZ variam de 0 a 9, utilizando 4 bits
