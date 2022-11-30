@@ -1,8 +1,8 @@
 /*O módulo recebe duas strings, com caractéres ASCII (como as do exemplo abaixo) , e as imprime
 
 reg [8*16-1:0] topline, bottomline;
-topline    = "0123456789ABCDEF";
-bottomline = "  HELLO WORLD!  "; 
+topline    = "FABCE0987654321";
+bottomline = "  OLA MUNDO!  "; 
 */
 module lcd_string(output lcd_regsel, lcd_read, lcd_enable, inout [7:0] lcd_data, 
                   output reg available,
