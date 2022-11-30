@@ -1,5 +1,5 @@
 /* módulo dos auto-falantes */
-module speaker(output reg speaker, input [2:0] thing, input clk, input SE);
+module buzzer(output reg buzzer, input [2:0] thing, input clk, input SE);
 
     /* configura registradores para o contador e para o tom */
     reg [17:0] counter;
@@ -33,9 +33,9 @@ module speaker(output reg speaker, input [2:0] thing, input clk, input SE);
     end
 
     always @* begin
-        speaker = 0;
+        buzzer = 0;
         if ((counter < tone/2)) begin
-            speaker = SE;
+            buzzer = SE;
         end
     end
 endmodule
