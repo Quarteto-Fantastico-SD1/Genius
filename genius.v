@@ -24,7 +24,7 @@ module top(output [2:0] genius_led0, genius_led1, genius_led2, genius_led3, outp
     
     // variáveis de estado
     reg [31:0] state, nextState; 
-    localparam VERMELHO = 001, VERDE = 010, AZUL = 100, AMARELO = 011, UNIecond = 100000000;
+    localparam VERMELHO = 001, VERDE = 010, AZUL = 100, AMARELO = 011, oneSecond = 100000000;
     localparam welcome = 0, waitVERMELHO = 1, geniusPrint = 2, geniusPlay = 3, userPlay = 4, playVERMELHO = 5, playVERDE = 6, playAZUL = 7, playAMARELO = 8, waitForPress = 9, 
         randomize = 10, geniusRest = 11, geniusCmp = 12, playerInit = 13, playerWaitForPress = 14, playerWaitForRelease = 15, playerCheck = 16, wincrement = 17, losecrement = 18,
         loseTone = 19, winTone = 20, playAgain = 21, winTone1 = 22, winTone2 = 23, loseTone1 = 24, loseTone2 = 25, cheatRepeat = 24;
@@ -186,7 +186,7 @@ module top(output [2:0] genius_led0, genius_led1, genius_led2, genius_led3, outp
             randomize: begin
                 random = 1;
                 if (r1) begin // soltar VERMELHO
-                    timerResetVal = UNIecond;
+                    timerResetVal = oneSecond;
                     timerReset = 1;
                     nextState = geniusPrint;
                 end
@@ -201,12 +201,13 @@ module top(output [2:0] genius_led0, genius_led1, genius_led2, genius_led3, outp
                     end
                 if(timer == 0) begin
                     geniusCountReset = 1;
-                    timerResetVal = 0.75*UNIecond;
+                    timerResetVal = 0.75*oneSecond;
                     timerReset = 1;
                     nextState = geniusPlay;
                 end
                 end
 
+            // Apresentação da sequência
             geniusPlay: begin
                 if (lcd_available) begin
                     lcd_print = 1;
@@ -220,7 +221,7 @@ module top(output [2:0] genius_led0, genius_led1, genius_led2, genius_led3, outp
                 cor = randomOutput;
                 if (timer == 0) begin
                     nextState = geniusRest;
-                    timerResetVal = 0.25*UNIecond;
+                    timerResetVal = 0.25*oneSecond;
                     timerReset = 1;
                 end
                 end
@@ -240,11 +241,12 @@ module top(output [2:0] genius_led0, genius_led1, genius_led2, genius_led3, outp
                     geniusCountEnable = 1;
                     step = 1;
                     timerReset = 1;
-                    timerResetVal = 0.75*UNIecond;
+                    timerResetVal = 0.75*oneSecond;
                     nextState = geniusPlay;
                 end
             end
 
+            // Jogador repete a sequência
             playerInit: begin
                 if (lcd_available) begin
                     lcd_print = 1;
@@ -256,6 +258,7 @@ module top(output [2:0] genius_led0, genius_led1, genius_led2, genius_led3, outp
                 nextState = playerWaitForPress;
             end
 
+            // Esperando o jogador apertar o botão da sequeência
             playerWaitForPress: begin
                 if (p0 | p1 | p2 | p3) begin
                     buttonSave = decodedButton;
@@ -264,7 +267,7 @@ module top(output [2:0] genius_led0, genius_led1, genius_led2, genius_led3, outp
                 else if (p4) begin 
                     rerun = 1;
                     geniusCountReset = 1;
-                    timerResetVal = UNIecond;
+                    timerResetVal = oneSecond;
                     timerReset = 1;
                     nextState = geniusPrint;
 
@@ -279,7 +282,8 @@ module top(output [2:0] genius_led0, genius_led1, genius_led2, genius_led3, outp
                 if (r0 | r1 | r2 | r3)
                     nextState = playerCheck;
             end
-
+            
+            // Checando se o botão apertado está correto
             playerCheck: begin
                 if (buttonSave == randomOutput) begin
                     step = 1;
@@ -298,7 +302,7 @@ module top(output [2:0] genius_led0, genius_led1, genius_led2, genius_led3, outp
                 rerun = 1;
                 scoreEn = 1;
                 geniusCountReset = 1;
-                timerResetVal = 0.5*UNIecond;
+                timerResetVal = 0.5*oneSecond;
                 timerReset = 1;
                 nextState = winTone;
             end
@@ -308,7 +312,7 @@ module top(output [2:0] genius_led0, genius_led1, genius_led2, genius_led3, outp
                 tone = 5; 
                 buzzerEn = 1;
                 if (timer == 0) begin
-                    timerResetVal = 0.5*UNIecond;
+                    timerResetVal = 0.5*oneSecond;
                     timerReset = 1;
                     nextState = winTone1;
                 end
@@ -319,7 +323,7 @@ module top(output [2:0] genius_led0, genius_led1, genius_led2, genius_led3, outp
                 tone = 6; 
                 buzzerEn = 1;
                 if (timer == 0) begin
-                    timerResetVal = 0.5*UNIecond;
+                    timerResetVal = 0.5*oneSecond;
                     timerReset = 1;
                     nextState = winTone2;
                 end
@@ -330,7 +334,7 @@ module top(output [2:0] genius_led0, genius_led1, genius_led2, genius_led3, outp
                 tone = 7; 
                 buzzerEn = 1;
                 if (timer == 0) begin
-                    timerResetVal = 0.5*UNIecond;
+                    timerResetVal = 0.5*oneSecond;
                     timerReset = 1;
                     nextState = geniusPrint;
                 end
@@ -361,7 +365,7 @@ module top(output [2:0] genius_led0, genius_led1, genius_led2, genius_led3, outp
                 tone = 6; 
                 buzzerEn = 1;
                 if (timer == 0) begin
-                    timerResetVal = 0.5*UNIecond;
+                    timerResetVal = 0.5*oneSecond;
                     timerReset = 1;
                     nextState = loseTone2;
                 end
@@ -372,7 +376,7 @@ module top(output [2:0] genius_led0, genius_led1, genius_led2, genius_led3, outp
                 tone = 5; 
                 buzzerEn = 1;
                 if (timer == 0) begin
-                    timerResetVal = 0.5*UNIecond;
+                    timerResetVal = 0.5*oneSecond;
                     timerReset = 1;
                     nextState = playAgain;
                 end
